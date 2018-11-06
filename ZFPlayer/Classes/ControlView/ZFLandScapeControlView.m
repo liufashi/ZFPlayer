@@ -38,6 +38,8 @@
 @property (nonatomic, strong) UIView *bottomToolView;
 /// 播放或暂停按钮
 @property (nonatomic, strong) UIButton *playOrPauseBtn;
+/// 退出全屏
+@property (nonatomic, strong) UIButton *outFullSCreenBtn;
 /// 播放的当前时间
 @property (nonatomic, strong) UILabel *currentTimeLabel;
 /// 滑杆
@@ -435,7 +437,7 @@
     if (!_currentTimeLabel) {
         _currentTimeLabel = [[UILabel alloc] init];
         _currentTimeLabel.textColor = [UIColor whiteColor];
-        _currentTimeLabel.font = [UIFont systemFontOfSize:14.0f];
+        _currentTimeLabel.font = [UIFont systemFontOfSize:13.0f];
         _currentTimeLabel.textAlignment = NSTextAlignmentRight;
     }
     return _currentTimeLabel;
