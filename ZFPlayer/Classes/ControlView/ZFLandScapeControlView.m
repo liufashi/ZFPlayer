@@ -38,7 +38,7 @@
 @property (nonatomic, strong) UIView *bottomToolView;
 /// 播放或暂停按钮
 @property (nonatomic, strong) UIButton *playOrPauseBtn;
-/// 播放的当前时间 
+/// 播放的当前时间
 @property (nonatomic, strong) UILabel *currentTimeLabel;
 /// 滑杆
 @property (nonatomic, strong) ZFSliderView *slider;
@@ -59,16 +59,21 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        
         [self addSubview:self.topToolView];
         [self.topToolView addSubview:self.backBtn];
-        [self.topToolView addSubview:self.titleLabel];
-        [self addSubview:self.bottomToolView];
-        [self.bottomToolView addSubview:self.playOrPauseBtn];
-        [self.bottomToolView addSubview:self.currentTimeLabel];
         
+        [self addSubview:self.playOrPauseBtn];
+        
+        [self addSubview:self.bottomToolView];
+        [self.bottomToolView addSubview:self.outFullSCreenBtn];
+        [self.bottomToolView addSubview:self.currentTimeLabel];
         [self.bottomToolView addSubview:self.slider];
         [self.bottomToolView addSubview:self.totalTimeLabel];
-        [self addSubview:self.lockBtn];
+        [self.bottomToolView addSubview:self.titleLabel];
+
+        
+//        [self addSubview:self.lockBtn];
         
         // 设置子控件的响应事件
         [self makeSubViewsAction];
@@ -89,6 +94,8 @@
     CGFloat min_view_w = self.bounds.size.width;
     CGFloat min_view_h = self.bounds.size.height;
     
+    CGFloat max_bottomView_h = 70; //(底部工具条70 加上文案 头像等 总高度140)
+    
     CGFloat min_margin = 9; 
     
     min_x = 0;
@@ -103,46 +110,57 @@
     min_h = 40;
     self.backBtn.frame = CGRectMake(min_x, min_y, min_w, min_h);
     
-    min_x = self.backBtn.right + 5;
-    min_y = 0;
-    min_w = min_view_w - min_x - 15 ;
-    min_h = 30;
-    self.titleLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    self.titleLabel.centerY = self.backBtn.centerY;
-    
-    min_h = 73;
-    min_h = iPhoneX ? 100 : 73;
+    min_h = 140;
+    min_h = iPhoneX ? 170 : 140;
     min_x = 0;
     min_y = min_view_h - min_h;
     min_w = min_view_w;
     self.bottomToolView.frame = CGRectMake(min_x, min_y, min_w, min_h);
     
-    min_x = (iPhoneX && self.player.orientationObserver.fullScreenMode == ZFFullScreenModeLandscape) ? 44: 15;
-    min_y = 32;
-    min_w = 30;
-    min_h = 30;
+    //暂停开始按钮 中间
+    min_x = 0;
+    min_y = 0;
+    min_w = 32;
+    min_h = 32;
     self.playOrPauseBtn.frame = CGRectMake(min_x, min_y, min_w, min_h);
+    self.playOrPauseBtn.center = self.center;
     
-    min_x = self.playOrPauseBtn.right + 4;
-    min_y = 0;
-    min_w = 62;
+    //详细内容
     min_h = 30;
-    self.currentTimeLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    self.currentTimeLabel.centerY = self.playOrPauseBtn.centerY;
+    min_w = min_view_w - min_x * 2 ;
+    min_x = 16;
+    min_y = self.bottomToolView.height - 60 - min_h;
+    self.titleLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
     
-    min_w = 62;
-    min_x = self.bottomToolView.width - min_w - ((iPhoneX && self.player.orientationObserver.fullScreenMode == ZFFullScreenModeLandscape) ? 44: min_margin);
+    //退出全屏按钮
+    min_w = 30;
+    min_h = min_w;
+    min_x = self.bottomToolView.width - min_w - min_margin;
+    min_y = (max_bottomView_h - min_h)/2 + max_bottomView_h;
+    self.outFullSCreenBtn.frame = CGRectMake(min_x, min_y, min_w, min_h);
+    
+    min_w = 45;
+    min_h = 28;
+    min_x = self.outFullSCreenBtn.left - min_w - 4;
     min_y = 0;
-    min_h = 30;
     self.totalTimeLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    self.totalTimeLabel.centerY = self.playOrPauseBtn.centerY;
+    self.totalTimeLabel.centerY = self.outFullSCreenBtn.centerY;
+
     
-    min_x = self.currentTimeLabel.right + 4;
+    min_w = 40;
+    min_h = 28;
+    min_x = self.totalTimeLabel.left - min_w;
+    min_y = (self.bottomToolView.height - min_h)/2;
+    self.currentTimeLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
+    self.currentTimeLabel.centerY = self.outFullSCreenBtn.centerY;
+
+    min_x = 10;
     min_y = 0;
-    min_w = self.totalTimeLabel.left - min_x - 4;
+    min_w = self.bottomToolView.width - 15 - 40 - 45 - 28 - 15;//(相继减去全屏按钮 总时长 播放时长 间距)
     min_h = 30;
     self.slider.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    self.slider.centerY = self.playOrPauseBtn.centerY;
+    self.slider.centerY = self.currentTimeLabel.centerY;
+    self.slider.centerY = self.outFullSCreenBtn.centerY;
     
     min_x = (iPhoneX && self.player.orientationObserver.fullScreenMode == ZFFullScreenModeLandscape) ? 50: 18;
     min_y = 0;
@@ -260,6 +278,7 @@
     } else {
         self.topToolView.alpha       = 1;
         self.bottomToolView.alpha    = 1;
+        self.playOrPauseBtn.alpha    = 1;
     }
 }
 
@@ -272,6 +291,8 @@
     self.topToolView.alpha           = 0;
     self.bottomToolView.alpha        = 0;
     self.lockBtn.alpha               = 0;
+    self.playOrPauseBtn.alpha        = 0;
+    
 }
 
 - (BOOL)shouldResponseGestureWithPoint:(CGPoint)point withGestureType:(ZFPlayerGestureType)type touch:(nonnull UITouch *)touch {
@@ -290,7 +311,7 @@
         NSString *currentTimeString = [ZFUtilities convertTimeSecond:currentTime];
         self.currentTimeLabel.text = currentTimeString;
         NSString *totalTimeString = [ZFUtilities convertTimeSecond:totalTime];
-        self.totalTimeLabel.text = totalTimeString;
+        self.totalTimeLabel.text = [NSString stringWithFormat:@"/%@",totalTimeString];
         self.slider.value = videoPlayer.progress;
     }
 }
@@ -379,7 +400,7 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.font = [UIFont systemFontOfSize:15.0];
+        _titleLabel.font = [UIFont systemFontOfSize:16.0];
     }
     return _titleLabel;
 }
@@ -402,12 +423,20 @@
     return _playOrPauseBtn;
 }
 
+- (UIButton *)outFullSCreenBtn {
+    if (!_outFullSCreenBtn) {
+        _outFullSCreenBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_outFullSCreenBtn setImage:ZFPlayer_Image(@"ZFPlayer_play") forState:UIControlStateNormal];
+    }
+    return _outFullSCreenBtn;
+}
+
 - (UILabel *)currentTimeLabel {
     if (!_currentTimeLabel) {
         _currentTimeLabel = [[UILabel alloc] init];
         _currentTimeLabel.textColor = [UIColor whiteColor];
         _currentTimeLabel.font = [UIFont systemFontOfSize:14.0f];
-        _currentTimeLabel.textAlignment = NSTextAlignmentCenter;
+        _currentTimeLabel.textAlignment = NSTextAlignmentRight;
     }
     return _currentTimeLabel;
 }
@@ -428,9 +457,9 @@
 - (UILabel *)totalTimeLabel {
     if (!_totalTimeLabel) {
         _totalTimeLabel = [[UILabel alloc] init];
-        _totalTimeLabel.textColor = [UIColor whiteColor];
-        _totalTimeLabel.font = [UIFont systemFontOfSize:14.0f];
-        _totalTimeLabel.textAlignment = NSTextAlignmentCenter;
+        _totalTimeLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        _totalTimeLabel.font = [UIFont systemFontOfSize:13.0f];
+        _totalTimeLabel.textAlignment = NSTextAlignmentLeft;
     }
     return _totalTimeLabel;
 }
