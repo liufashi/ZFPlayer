@@ -61,7 +61,7 @@ static NSString *const kPresentationSize         = @"presentationSize";
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }

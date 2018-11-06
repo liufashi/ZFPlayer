@@ -54,7 +54,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // 添加子控件
-        [self addSubview:self.topToolView];
+//        [self addSubview:self.topToolView];
         [self addSubview:self.bottomToolView];
         [self addSubview:self.playOrPauseBtn];
         [self.topToolView addSubview:self.titleLabel];
@@ -185,12 +185,6 @@
     self.playOrPauseBtn.frame = CGRectMake(min_x, min_y, min_w, min_h);
     self.playOrPauseBtn.center = self.center;
     
-    min_x = min_margin;
-    min_w = 62;
-    min_h = 28;
-    min_y = (self.bottomToolView.height - min_h)/2;
-    self.currentTimeLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    
     min_w = 28;
     min_h = min_w;
     min_x = self.bottomToolView.width - min_w - min_margin;
@@ -198,16 +192,21 @@
     self.fullScreenBtn.frame = CGRectMake(min_x, min_y, min_w, min_h);
     self.fullScreenBtn.centerY = self.currentTimeLabel.centerY;
     
-    min_w = 62;
+    min_w = 45;
     min_h = 28;
     min_x = self.fullScreenBtn.left - min_w - 4;
-    min_y = 0;
+    min_y = (self.bottomToolView.height - min_h)/2;
     self.totalTimeLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    self.totalTimeLabel.centerY = self.currentTimeLabel.centerY;
     
-    min_x = self.currentTimeLabel.right + 4;
+    min_w = 40;
+    min_h = 28;
+    min_x = self.totalTimeLabel.left - min_w;
+    min_y = (self.bottomToolView.height - min_h)/2;
+    self.currentTimeLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
+    
+    min_x = 10;
     min_y = 0;
-    min_w = self.totalTimeLabel.left - min_x - 4;
+    min_w = self.bottomToolView.width - 15 - 40 - 45 - 28 - 15;//(相继减去全屏按钮 总时长 播放时长 间距)
     min_h = 30;
     self.slider.frame = CGRectMake(min_x, min_y, min_w, min_h);
     self.slider.centerY = self.currentTimeLabel.centerY;
@@ -273,7 +272,7 @@
         NSString *currentTimeString = [ZFUtilities convertTimeSecond:currentTime];
         self.currentTimeLabel.text = currentTimeString;
         NSString *totalTimeString = [ZFUtilities convertTimeSecond:totalTime];
-        self.totalTimeLabel.text = totalTimeString;
+        self.totalTimeLabel.text = [NSString stringWithFormat:@"/%@",totalTimeString];
         self.slider.value = videoPlayer.progress;
     }
 }
@@ -347,8 +346,8 @@
     if (!_currentTimeLabel) {
         _currentTimeLabel = [[UILabel alloc] init];
         _currentTimeLabel.textColor = [UIColor whiteColor];
-        _currentTimeLabel.font = [UIFont systemFontOfSize:14.0f];
-        _currentTimeLabel.textAlignment = NSTextAlignmentCenter;
+        _currentTimeLabel.font = [UIFont systemFontOfSize:13.0f];
+        _currentTimeLabel.textAlignment = NSTextAlignmentRight;
     }
     return _currentTimeLabel;
 }
@@ -369,9 +368,9 @@
 - (UILabel *)totalTimeLabel {
     if (!_totalTimeLabel) {
         _totalTimeLabel = [[UILabel alloc] init];
-        _totalTimeLabel.textColor = [UIColor whiteColor];
-        _totalTimeLabel.font = [UIFont systemFontOfSize:14.0f];
-        _totalTimeLabel.textAlignment = NSTextAlignmentCenter;
+        _totalTimeLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        _totalTimeLabel.font = [UIFont systemFontOfSize:13.0f];
+        _totalTimeLabel.textAlignment = NSTextAlignmentLeft;
     }
     return _totalTimeLabel;
 }

@@ -416,7 +416,7 @@
 				ORGANIZATIONNAME = "紫枫";
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = R2U8SE68WE;
+						DevelopmentTeam = J9S828ATVB;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -670,7 +670,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = R2U8SE68WE;
+				DEVELOPMENT_TEAM = J9S828ATVB;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZFPlayer/ZFPlayer-Prefix.pch";
 				INFOPLIST_FILE = "ZFPlayer/ZFPlayer-Info.plist";
@@ -692,7 +692,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = R2U8SE68WE;
+				DEVELOPMENT_TEAM = J9S828ATVB;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZFPlayer/ZFPlayer-Prefix.pch";
 				INFOPLIST_FILE = "ZFPlayer/ZFPlayer-Info.plist";
