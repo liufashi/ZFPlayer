@@ -48,6 +48,12 @@
 @property (nonatomic, strong) UILabel *totalTimeLabel;
 /// 锁定屏幕按钮
 @property (nonatomic, strong) UIButton *lockBtn;
+/// 头像
+@property (nonatomic, strong) UIImageView *headImageView;
+/// 用户昵称
+@property (nonatomic, strong) UILabel *userNameLable;
+/// 关注
+@property (nonatomic, strong) UIButton *attentiongBtn;
 
 @property (nonatomic, assign) BOOL isShow;
 
@@ -73,7 +79,9 @@
         [self.bottomToolView addSubview:self.slider];
         [self.bottomToolView addSubview:self.totalTimeLabel];
         [self.bottomToolView addSubview:self.titleLabel];
-
+        [self.bottomToolView addSubview:self.headImageView];
+        [self.bottomToolView addSubview:self.userNameLable];
+        [self.bottomToolView addSubview:self.attentiongBtn];
         
 //        [self addSubview:self.lockBtn];
         
@@ -148,7 +156,6 @@
     self.totalTimeLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
     self.totalTimeLabel.centerY = self.outFullSCreenBtn.centerY;
 
-    
     min_w = 40;
     min_h = 28;
     min_x = self.totalTimeLabel.left - min_w;
@@ -161,9 +168,30 @@
     min_w = self.bottomToolView.width - 15 - 40 - 45 - 28 - 15;//(相继减去全屏按钮 总时长 播放时长 间距)
     min_h = 30;
     self.slider.frame = CGRectMake(min_x, min_y, min_w, min_h);
-    self.slider.centerY = self.currentTimeLabel.centerY;
     self.slider.centerY = self.outFullSCreenBtn.centerY;
     
+    //添加头部 昵称 关注
+    min_x = 10;
+    min_y = 10;
+    min_w = 32;
+    min_h = 32;
+    self.headImageView.frame = CGRectMake(min_x, min_y, min_w, min_h);
+    
+    //昵称
+    min_x = 10 + self.headImageView.right;
+    min_y = 10;
+    min_w = [self textSizeWithFont:[UIFont systemFontOfSize:16] limitWidth:min_view_w - 20 - 32 - 60 - 20 withString:self.userNameLable.text].width;
+    min_h = 32;
+    self.userNameLable.frame = CGRectMake(min_x, min_y, min_w, min_h);
+    self.userNameLable.centerY = self.headImageView.centerY;
+    
+    //关注
+    min_x = 10 + self.userNameLable.right;
+    min_y = 10;
+    min_w = 60;
+    min_h = 32;
+    self.attentiongBtn.frame = CGRectMake(min_x, min_y, min_w, min_h);
+
     min_x = (iPhoneX && self.player.orientationObserver.fullScreenMode == ZFFullScreenModeLandscape) ? 50: 18;
     min_y = 0;
     min_w = 40;
@@ -185,10 +213,21 @@
     }
 }
 
+/// 计算字符串长度（一行时候）
+- (CGSize)textSizeWithFont:(UIFont*)font limitWidth:(CGFloat)maxWidth withString:(NSString *)text {
+    CGSize size = [text boundingRectWithSize:CGSizeMake(MAXFLOAT, 36)options:(NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)  attributes:@{ NSFontAttributeName : font} context:nil].size;
+    size.width = size.width > maxWidth ? maxWidth : size.width;
+    size.width = ceil(size.width);
+    size.height = ceil(size.height);
+    return size;
+}
+
 - (void)makeSubViewsAction {
     [self.backBtn addTarget:self action:@selector(backBtnClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.playOrPauseBtn addTarget:self action:@selector(playPauseButtonClickAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.lockBtn addTarget:self action:@selector(lockButtonClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.outFullSCreenBtn addTarget:self action:@selector(backBtnClickAction:) forControlEvents:UIControlEventTouchUpInside];
+
 }
 
 - (void)layOutControllerViews {
@@ -473,6 +512,37 @@
         [_lockBtn setImage:ZFPlayer_Image(@"ZFPlayer_lock-nor") forState:UIControlStateSelected];
     }
     return _lockBtn;
+}
+
+-(UIImageView *)headImageView{
+    if (!_headImageView) {
+        _headImageView = [[UIImageView alloc] init];
+        _headImageView.layer.cornerRadius = _headImageView.height * 0.5;
+        _headImageView.layer.masksToBounds = YES;
+        _headImageView.image = ZFPlayer_Image(@"ZFPlayer_unlock-nor");
+    }
+    return _headImageView;
+}
+
+- (UILabel *)userNameLable {
+    if (!_userNameLable) {
+        _userNameLable = [[UILabel alloc] init];
+        _userNameLable.textColor = [UIColor whiteColor];
+        _userNameLable.font = [UIFont fontWithName:@"PingFangSC-Medium" size:16];
+        _userNameLable.text = @"虾仁虾仁虾仁";
+        _userNameLable.textAlignment = NSTextAlignmentLeft;
+    }
+    return _userNameLable;
+}
+
+- (UIButton *)attentiongBtn {
+    if (!_attentiongBtn) {
+        _attentiongBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_attentiongBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_attentiongBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
+        [_attentiongBtn setTitle:@"已关注" forState:UIControlStateNormal];
+    }
+    return _attentiongBtn;
 }
 
 @end

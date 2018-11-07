@@ -51,6 +51,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UIButton *lockBtn;
 /// 播放器
 @property (nonatomic, weak) ZFPlayerController *player;
+/// 头像
+@property (nonatomic, strong, readonly) UIImageView *headImageView;
+/// 用户昵称
+@property (nonatomic, strong, readonly) UILabel *userNameLable;
+/// 关注
+@property (nonatomic, strong, readonly) UIButton *attentiongBtn;
+
 /// slider滑动中
 @property (nonatomic, copy, nullable) void(^sliderValueChanging)(CGFloat value,BOOL forward);
 /// slider滑动结束
