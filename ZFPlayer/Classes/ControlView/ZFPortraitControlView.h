@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UILabel *totalTimeLabel;
 /// 全屏按钮
 @property (nonatomic, strong, readonly) UIButton *fullScreenBtn;
+/// 灰色蒙版
+@property (nonatomic, strong, readonly) UIView *grayCoverView;
 /// 播放器
 @property (nonatomic, weak) ZFPlayerController *player;
 /// slider滑动中

@@ -44,6 +44,8 @@
 @property (nonatomic, strong) UILabel *totalTimeLabel;
 /// 全屏按钮
 @property (nonatomic, strong) UIButton *fullScreenBtn;
+/// 灰色蒙版
+@property (nonatomic, strong) UIView *grayCoverView;
 
 @property (nonatomic, assign) BOOL isShow;
 
@@ -55,6 +57,7 @@
     if (self = [super initWithFrame:frame]) {
         // 添加子控件
 //        [self addSubview:self.topToolView];
+        [self addSubview:self.grayCoverView];
         [self addSubview:self.bottomToolView];
         [self addSubview:self.playOrPauseBtn];
         [self.topToolView addSubview:self.titleLabel];
@@ -163,6 +166,12 @@
     min_x = 0;
     min_y = 0;
     min_w = min_view_w;
+    min_h = min_view_h;
+    self.grayCoverView.frame = CGRectMake(min_x, min_y, min_w, min_h);
+    
+    min_x = 0;
+    min_y = 0;
+    min_w = min_view_w;
     min_h = 40;
     self.topToolView.frame = CGRectMake(min_x, min_y, min_w, min_h);
     
@@ -244,6 +253,7 @@
     self.bottomToolView.y            = self.height - self.bottomToolView.height;
     self.playOrPauseBtn.alpha        = 1;
     self.player.statusBarHidden      = NO;
+    self.grayCoverView.alpha         = 1;
 }
 
 - (void)hideControlView {
@@ -254,6 +264,7 @@
     self.playOrPauseBtn.alpha        = 0;
     self.topToolView.alpha           = 0;
     self.bottomToolView.alpha        = 0;
+    self.grayCoverView.alpha         = 0;
 }
 
 - (BOOL)shouldResponseGestureWithPoint:(CGPoint)point withGestureType:(ZFPlayerGestureType)type touch:(nonnull UITouch *)touch {
@@ -381,6 +392,14 @@
         [_fullScreenBtn setImage:ZFPlayer_Image(@"ZFPlayer_fullscreen") forState:UIControlStateNormal];
     }
     return _fullScreenBtn;
+}
+
+-(UIView *)grayCoverView{
+    if (!_grayCoverView) {
+        _grayCoverView = [[UIView alloc] init];
+        _grayCoverView.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.2];
+    }
+    return _grayCoverView;
 }
 
 @end
