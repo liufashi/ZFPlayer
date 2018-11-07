@@ -137,7 +137,7 @@
     if (!_sliderView) {
         _sliderView = [[ZFSliderView alloc] init];
         _sliderView.maximumTrackTintColor = [UIColor clearColor];
-        _sliderView.minimumTrackTintColor = [UIColor whiteColor];
+        _sliderView.minimumTrackTintColor = [UIColor colorWithRed:46/255.0 green:219/255.0 blue:196/255.0 alpha:1];
         _sliderView.bufferTrackTintColor  = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
         _sliderView.sliderHeight = 1;
         _sliderView.isHideSliderBlock = NO;

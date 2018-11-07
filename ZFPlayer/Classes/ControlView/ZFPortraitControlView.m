@@ -369,7 +369,7 @@
         _slider.delegate = self;
         _slider.maximumTrackTintColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.8];
         _slider.bufferTrackTintColor  = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
-        _slider.minimumTrackTintColor = [UIColor whiteColor];
+        _slider.minimumTrackTintColor = [UIColor colorWithRed:46/255.0 green:219/255.0 blue:196/255.0 alpha:1];
         [_slider setThumbImage:ZFPlayer_Image(@"ZFPlayer_slider") forState:UIControlStateNormal];
         _slider.sliderHeight = 2;
     }
